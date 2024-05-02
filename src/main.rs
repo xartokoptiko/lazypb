@@ -8,39 +8,25 @@ use std::env;
 use crate::utils::analyze_project_call;
 
 fn main() {
-    let lampros_codes_ascii_art = r#"
- /$$                                                                 /$$$$$$                /$$                  
-| $$                                                                /$$__  $$              | $$                  
-| $$       /$$$$$$ /$$$$$$/$$$$  /$$$$$$  /$$$$$$  /$$$$$$  /$$$$$$| $$  \__/ /$$$$$$  /$$$$$$$ /$$$$$$  /$$$$$$$
-| $$      |____  $| $$_  $$_  $$/$$__  $$/$$__  $$/$$__  $$/$$_____| $$      /$$__  $$/$$__  $$/$$__  $$/$$_____/
-| $$       /$$$$$$| $$ \ $$ \ $| $$  \ $| $$  \__| $$  \ $|  $$$$$$| $$     | $$  \ $| $$  | $| $$$$$$$|  $$$$$$ 
-| $$      /$$__  $| $$ | $$ | $| $$  | $| $$     | $$  | $$\____  $| $$    $| $$  | $| $$  | $| $$_____/\____  $$
-| $$$$$$$|  $$$$$$| $$ | $$ | $| $$$$$$$| $$     |  $$$$$$//$$$$$$$|  $$$$$$|  $$$$$$|  $$$$$$|  $$$$$$$/$$$$$$$/
-|________/\_______|__/ |__/ |__| $$____/|__/      \______/|_______/ \______/ \______/ \_______/\_______|_______/ 
-                               | $$  ~~ Your not-that-smart-bean on the drawer ~~
-            v-0.1BETA          | $$                                               ~~ now on a CLI tool ~~
-                               |__/
+    let lazyp_ascii_art = r#"
+ /$$                                     /$$$$$$$      |  LazyP is a CLI tool that will  help you organize
+| $$                                    | $$__  $$     |  your  projects  better  ,  open them  faster and
+| $$        /$$$$$$  /$$$$$$$$ /$$   /$$| $$  \ $$     |  be the lazy programmer/developer you usually are
+| $$       |____  $$|____ /$$/| $$  | $$| $$$$$$$/     |
+| $$        /$$$$$$$   /$$$$/ | $$  | $$| $$____/      |  Wanna keep whatching that  show/movie/video  but
+| $$       /$$__  $$  /$$__/  | $$  | $$| $$           |  the only thing you see is the terminal  after  a
+| $$$$$$$$|  $$$$$$$ /$$$$$$$$|  $$$$$$$| $$           |  very  long  time of coding ? LazyP will help you
+|________/ \_______/|________/ \____  $$|__/           |
+                               /$$  | $$               |  Left an uni/school excerise in half but  you are
+            V-0.01BETA        |  $$$$$$/               |  too  lazy to open the tools you made  it  with ?
+                               \______/                |  LazyP just did it !
+
 "#.cyan();
-
-
-    let welcome = r#"
-
-[*] lampros-shell is a training project for rust that is going to help me better
-understand the procces of creating a CLI application/tooll in my case this is more like a tool
-
-[*] Thing lampros-shell is going to help you :
-                                              1) Fast project and tool opening
-                                              2) Fast Netflix, movies joy, youtube opening
-                                              3) University tools and apps opening
-                                              Thats all !
-
-[*] Type -help to see all the instructions
-"#.green();
 
     let instructions = r#"
 
-lampros-shell :
-                |project|
+lazyp           :
+                |project| && |p|
                 project                   -> This shows all the projects.
                 project -o [PROJECT_NAME] -> This opens the project in it's prefered IDLE and tools
                 project -a                -> This creates a project.
@@ -49,22 +35,21 @@ lampros-shell :
                 project -s                -> This saves a projects root directory directly based on
                                              the location you currently are.
 
-                |watch|
+                |watch| && |w|
 
-                |uni|
+                |uni| && |u|
 
 "#;
 
     let args : Vec<String> = env::args().collect();
 
     if args.len() == 1 {
-        println!("{}", lampros_codes_ascii_art);
-        println!("{}", welcome);
+        println!("{}", lazyp_ascii_art);
     }else {
         match args[1].as_str() {
             "-help" => println!("{}", instructions),
             "project" => analyze_project_call(args),
-            _ => println!("Nothing found!")
+            _ => println!("🙍 No command found [{}], type -help to see all the commands", args[1].to_string())
         }
     }
 

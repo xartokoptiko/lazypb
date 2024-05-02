@@ -1,3 +1,1 @@
-{
-  "projects" : []
-}
+{"projects":[{"id":"test1","title":"TestOne","working_dir":"/home/lampros/Projects/rust/actix_test","editor":"RustRover"},{"id":"test3","title":"LALALALAL","working_dir":"/home/lampros/Projects/self-prod/lamprosCodes/lampros-shell/target/debug","editor":"Fleet"},{"id":"lazy","title":"LamprosShell(lazyp)","working_dir":"/usr/bin/lampros-shell","editor":"RustRover"}]}
