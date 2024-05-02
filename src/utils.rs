@@ -7,6 +7,7 @@
 
 use std::env;
 use std::io::Write;
+use std::path::PathBuf;
 use dialoguer::Select;
 use dialoguer::theme::ColorfulTheme;
 use crate::data;
@@ -185,55 +186,76 @@ pub fn show_projects() {
 
 pub fn open_project(project: Project) {
     match project.editor {
-        IntelijUlt => open_with_intelij_ult(project),
-        IntelijCom => open_with_intelij_com(project),
-        RustRover => open_with_intelij_rover(project),
-        VsCode => open_with_intelij_code(project),
-        Fleet => open_with_intelij_fleet(project),
-        Nvim => open_with_intelij_vim(project),
-        WebStorm => open_with_intelij_storm(project),
-        PlainText => open_with_intelij_text(project)
+        IntelijUlt => open_with_intellij_ult(project),
+        IntelijCom => open_with_intellij_com(project),
+        RustRover => open_with_intellij_rover(project),
+        VsCode => open_with_intellij_code(project),
+        Fleet => open_with_intellij_fleet(project),
+        Nvim => open_with_intellij_vim(project),
+        WebStorm => open_with_intellij_storm(project),
+        PlainText => open_with_intellij_text(project)
     }
 }
 
-fn open_with_intelij_ult(project: Project) {
-    execute_editor("/home/lampros/.local/share/JetBrains/Toolbox/apps/intellij-idea-ultimate/bin/idea.sh"
-                   , project.working_dir.as_str());
+fn open_with_intellij_ult(project: Project) {
+    let intellij_path = get_intellij_path("intellij-idea-ultimate/bin/idea.sh");
+    //println!("{}", &intellij_path.to_str().expect(""));
+    execute_editor(&intellij_path.to_str().expect(""), &project.working_dir);
 }
 
-fn open_with_intelij_com(project: Project) {
-    execute_editor("/home/lampros/.local/share/JetBrains/Toolbox/apps/intellij-idea-community-edition/bin/idea.sh"
-                   , project.working_dir.as_str());
+// Define a function to open IntelliJ Community
+fn open_with_intellij_com(project: Project) {
+    let intellij_path = get_intellij_path("intellij-idea-community-edition/bin/idea.sh");
+    execute_editor(&intellij_path.to_str().expect(""), &project.working_dir);
 }
 
-fn open_with_intelij_rover(project: Project) {
-    execute_editor("/home/lampros/.local/share/JetBrains/Toolbox/apps/rustrover/bin/rustrover.sh"
-                   , project.working_dir.as_str());
+// Define a function to open Rust Rover
+fn open_with_intellij_rover(project: Project) {
+    let intellij_path = get_intellij_path("rustrover/bin/rustrover.sh");
+    execute_editor(&intellij_path.to_str().expect(""), &project.working_dir);
 }
 
-fn open_with_intelij_code(project: Project) {
-    execute_editor("code"
-                   , project.working_dir.as_str());
+// Define a function to open Visual Studio Code
+fn open_with_intellij_code(project: Project) {
+    execute_editor("code", &project.working_dir);
 }
 
-fn open_with_intelij_vim(project: Project) {
-    execute_editor("nvim"
-                   , project.working_dir.as_str());
+// Define a function to open Neovim
+fn open_with_intellij_vim(project: Project) {
+    execute_editor("nvim", &project.working_dir);
 }
 
-fn open_with_intelij_fleet(project: Project) {
-    execute_editor("/home/lampros/.local/share/JetBrains/Toolbox/apps/fleet/bin/fleet"
-                   , project.working_dir.as_str());
+// Define a function to open Fleet
+fn open_with_intellij_fleet(project: Project) {
+    let intellij_path = get_intellij_path("fleet/bin/fleet");
+    execute_editor(&intellij_path.to_str().expect(""), &project.working_dir);
 }
 
-fn open_with_intelij_storm(project: Project) {
-    execute_editor("/home/lampros/.local/share/JetBrains/Toolbox/apps/webstorm/bin/webstorm.sh"
-                   , project.working_dir.as_str());
+// Define a function to open WebStorm
+fn open_with_intellij_storm(project: Project) {
+    let intellij_path = get_intellij_path("webstorm/bin/webstorm.sh");
+    execute_editor(&intellij_path.to_str().expect(""), &project.working_dir);
 }
 
-fn open_with_intelij_text(project: Project) {
-    execute_editor("nano"
-                   , project.working_dir.as_str());
+// Define a function to open Nano
+fn open_with_intellij_text(project: Project) {
+    execute_editor("nano", &project.working_dir);
+}
+
+// Function to get the IntelliJ path
+fn get_intellij_path(tool: &str) -> PathBuf {
+    // Get the user's home directory
+    let mut path = match env::var_os("HOME") {
+        Some(home) => PathBuf::from(home),
+        None => panic!("❌ Could not find home dir"), // Provide a default if HOME is not set
+    };
+
+    // Append the rest of the path
+    path.push(".local/share/JetBrains/Toolbox/apps");
+    path.push(tool);
+
+    // Return the constructed path
+    path
 }
 
 fn execute_editor(editor_loc: &str, dir_loc: &str) {
