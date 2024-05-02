@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# Define paths
-CONFIG_DIR="$HOME/.config/lazyp"
+# Get original user's home directory
+ORIGINAL_HOME=$(eval echo ~$SUDO_USER)
+
+# Define paths using original user's home directory
+CONFIG_DIR="$ORIGINAL_HOME/.config/lazyp"
 DATA_DIR="$CONFIG_DIR/data"
 JSON_FILE="$DATA_DIR/projects.json"
 BINARY_DIR="target/debug"
@@ -12,8 +15,13 @@ LOG_FILE="$CONFIG_DIR/lazyp.log"
 
 # Function to log messages
 log() {
-    echo "$(date): $1" >> "$LOG_FILE"
+    local message="$1"
+    echo "$(date): $message"
+    echo "$(date): $message" >> "$LOG_FILE"
 }
+
+# Debug output
+echo "Debug: CONFIG_DIR=$CONFIG_DIR"
 
 # Check if config directory exists, if not, create it
 if [ ! -d "$CONFIG_DIR" ]; then
